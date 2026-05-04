@@ -1,9 +1,8 @@
 name: Docker CI/CD
-
 on:
-push:
-branches:
-- main
+  push:
+    branches:
+      - main
 
 jobs:
 docker:
@@ -21,4 +20,3 @@ steps:
 
   - name: Push Image
     run: docker push ${{ secrets.DOCKER_USERNAME }}/my-app:latest
-    
