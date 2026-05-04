@@ -20,4 +20,3 @@ steps:
 
 - name: Push Image
   run: docker push ${{ secrets.DOCKER_USERNAME }}/my-app:latest
-```
