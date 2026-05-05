@@ -38,20 +38,21 @@ jobs:
         echo "Tags found:"
         echo "$TAGS"
 
-        for TAG in $TAGS; do
-        echo "🗑️ Deleting tag: $TAG"
-
-        echo "🗑️ Deleting tag..."
-
-        STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \ -H "Authorization: JWT $TOKEN" \ "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/$TAG/")
-
-        echo "HTTP Status: $STATUS"
-        cat delete_response.txt
-
-        if [ "$STATUS" != "204" ]; then
-        echo "❌ Delete failed"
-        exit 1
+        echo "$TAGS" | while read TAG; do
+        if [ -z "$TAG" ]; then
+        continue
         fi
 
-        echo "✅ Tag deleted successfully"
+        echo "🗑️ Deleting tag: $TAG"
 
+        STATUS=$(curl -s -o delete_output.txt -w "%{http_code}" -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/$TAG/")
+
+        echo "Status: $STATUS"
+        cat delete_output.txt
+
+        if [ "$STATUS" = "204" ]; then
+        echo "✅ Deleted $TAG"
+        else
+        echo "⚠️ Failed to delete $TAG (Status: $STATUS)"
+        fi
+        done
