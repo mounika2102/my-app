@@ -31,10 +31,19 @@ jobs:
         fi
 
         echo "✅ Token received"
+        echo "✅ Fetching all tags..."
+
+        TAGS=$(curl -s -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags?page_size=100" | jq -r '.results[].name')
+
+        echo "Tags found:"
+        echo "$TAGS"
+
+        for TAG in $TAGS; do
+        echo "🗑️ Deleting tag: $TAG"
 
         echo "🗑️ Deleting tag..."
 
-        STATUS=$(curl -s -o delete_response.txt -w "%{http_code}" -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/mouni/")
+        STATUS=$(curl -s -o delete_response.txt -w "%{http_code}" -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/$TAG/")
 
         echo "HTTP Status: $STATUS"
         cat delete_response.txt
