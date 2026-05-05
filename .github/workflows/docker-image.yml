@@ -1,3 +1,4 @@
+#deleting the file
 name: Docker Image CI
 
 on:
