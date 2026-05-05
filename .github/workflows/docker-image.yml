@@ -43,7 +43,7 @@ jobs:
 
         echo "🗑️ Deleting tag..."
 
-        STATUS=$(curl -s -o delete_response.txt -w "%{http_code}" -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/$TAG/")
+        STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \ -H "Authorization: JWT $TOKEN" \ "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/$TAG/")
 
         echo "HTTP Status: $STATUS"
         cat delete_response.txt
