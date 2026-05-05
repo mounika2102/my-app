@@ -20,5 +20,5 @@ jobs:
 
         TOKEN=$(echo $RESPONSE | jq -r '.token')
 
-        curl -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/latest/"
+        curl -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/mouni/"
 
