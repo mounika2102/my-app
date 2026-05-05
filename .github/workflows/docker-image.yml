@@ -17,11 +17,32 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y jq
 
-        RESPONSE=$(curl -s -X POST "https://hub.docker.com/v2/users/login/" -H "Content-Type: application/json" -d "{"username": "${{ secrets.DOCKER_USERNAME }}", "password": "${{ secrets.DOCKER_PASSWORD }}"}")
+        echo "🔐 Logging into Docker Hub..."
 
-        TOKEN=$(echo $RESPONSE | jq -r '.token')
+        RESPONSE=$(curl -s -X POST "https://hub.docker.com/v2/users/login/" -H "Content-Type: application/json" -d "{"username": "${{ secrets.DOCKER_USERNAME }}", "password": "${{ secrets.DOCKER_ACCESS_TOKEN }}"}")
 
-        curl -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/mouni/"
-        echo "HTTP Status: $DELETE_RESPONSE"
-        cat response.txt
+        echo "Login Response: $RESPONSE"
+
+        TOKEN=$(echo "$RESPONSE" | jq -r '.token')
+
+        if [ "$TOKEN" = "null" ] || [ -z "$TOKEN" ]; then
+        echo "❌ Failed to get token"
+        exit 1
+        fi
+
+        echo "✅ Token received"
+
+        echo "🗑️ Deleting tag..."
+
+        STATUS=$(curl -s -o delete_response.txt -w "%{http_code}" -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/mouni/")
+
+        echo "HTTP Status: $STATUS"
+        cat delete_response.txt
+
+        if [ "$STATUS" != "204" ]; then
+        echo "❌ Delete failed"
+        exit 1
+        fi
+
+        echo "✅ Tag deleted successfully"
 
