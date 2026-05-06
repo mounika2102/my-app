@@ -12,47 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Delete Docker Image Tag
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y jq
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-        echo "🔐 Logging into Docker Hub..."
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-        RESPONSE=$(curl -s -X POST "https://hub.docker.com/v2/users/login/" -H "Content-Type: application/json" -d '{"username": "'"${{ secrets.DOCKER_USERNAME }}"'","password": "'"${{ secrets.DOCKER_PASSWORD }}"'"}')
+      - name: Build Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:latest .
 
-        echo "Login Response: $RESPONSE"
-
-        TOKEN=$(echo "$RESPONSE" | jq -r '.token')
-
-        if [ "$TOKEN" = "null" ] || [ -z "$TOKEN" ]; then
-        echo "❌ Failed to get token"
-        exit 1
-        fi
-
-        echo "✅ Token received"
-        echo "✅ Fetching all tags..."
-
-        TAGS=$(curl -s -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags?page_size=100" | jq -r '.results[].name')
-
-        echo "Tags found:"
-        echo "$TAGS"
-
-        echo "$TAGS" | while read TAG; do
-        if [ -z "$TAG" ]; then
-        continue
-        fi
-
-        echo "🗑️ Deleting tag: $TAG"
-
-        STATUS=$(curl -s -o delete_output.txt -w "%{http_code}" -X DELETE -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/my-app/tags/$TAG/")
-
-        echo "Status: $STATUS"
-        cat delete_output.txt
-
-        if [ "$STATUS" = "204" ]; then
-        echo "✅ Deleted $TAG"
-        else
-        echo "⚠️ Failed to delete $TAG (Status: $STATUS)"
-        fi
-        done
+      - name: Push Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-app:latest
