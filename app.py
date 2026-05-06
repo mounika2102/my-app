@@ -10,7 +10,7 @@ def home():
 
 @app.route("/health")
 def health():
-    return "FAIL", 500
+    return "OK", 200
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
