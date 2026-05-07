@@ -15,3 +15,14 @@ variable "image" {
   type        = string
   default     = "docker.io/nginx"
 }
+
+variable "openshift_server" {
+  description = "OpenShift API Server"
+  type        = string
+}
+
+variable "openshift_token" {
+  description = "OpenShift Token"
+  type        = string
+  sensitive   = true
+}
