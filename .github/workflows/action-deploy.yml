@@ -1,0 +1,37 @@
+name: Full DevOps Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  terraform:
+
+    runs-on: self-hosted
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: terraform
+
+  ansible:
+
+    needs: terraform
+
+    runs-on: self-hosted
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Run Playbook
+        run: ansible-playbook ansible/deploy.yml
