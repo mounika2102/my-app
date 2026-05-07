@@ -15,13 +15,6 @@ provider "kubernetes" {
    insecure               = true
 }
 
-resource "kubernetes_namespace" "demo" {
-
-  metadata {
-    name = var.namespace
-  }
-}
-
 resource "kubernetes_deployment" "app" {
 
   metadata {
