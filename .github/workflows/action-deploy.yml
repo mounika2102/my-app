@@ -14,9 +14,18 @@ jobs:
     steps:
 
       - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
+      - name: Terraform Version
+        run: terraform version
+        
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Plan
+        run: terraform plan
         working-directory: terraform
 
       - name: Terraform Apply
