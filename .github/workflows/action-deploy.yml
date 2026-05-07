@@ -3,13 +3,13 @@ name: Full DevOps Pipeline
 on:
   push:
     branches:
-      - main
+      - New
 
 jobs:
 
   terraform:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -27,11 +27,11 @@ jobs:
 
     needs: terraform
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
 
       - uses: actions/checkout@v4
 
       - name: Run Playbook
-        run: ansible-playbook ansible/deploy.yml
+        run: ansible-playbook deploy.yml
