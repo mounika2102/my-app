@@ -10,7 +10,9 @@ terraform {
 }
 
 provider "kubernetes" {
-  config_path = "~/.kube/config"
+   host                   = var.openshift_server
+   token                  = var.openshift_token
+   insecure               = true
 }
 
 resource "kubernetes_namespace" "demo" {
