@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+
+  tasks:
+
+    - name: Deploy application
+      shell: |
+        oc apply -f deployment.yaml
+
+    - name: Verify pods
+      shell: |
+        oc get pods -n demo
