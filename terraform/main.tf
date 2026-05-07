@@ -1,7 +1,9 @@
 terraform {
+
   required_providers {
+
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "~> 2.0"
     }
   }
@@ -12,16 +14,21 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_namespace" "demo" {
+
   metadata {
-    name = "demo"
+    name = var.namespace
   }
 }
 
 resource "kubernetes_deployment" "app" {
 
   metadata {
-    name = "demo-app"
-    namespace = kubernetes_namespace.demo.metadata[0].name
+    name      = var.app_name
+    namespace = var.namespace
+
+    labels = {
+      app = var.app_name
+    }
   }
 
   spec {
@@ -30,15 +37,16 @@ resource "kubernetes_deployment" "app" {
 
     selector {
       match_labels = {
-        app = "demo-app"
+        app = var.app_name
       }
     }
 
     template {
 
       metadata {
+
         labels = {
-          app = "demo-app"
+          app = var.app_name
         }
       }
 
@@ -46,14 +54,36 @@ resource "kubernetes_deployment" "app" {
 
         container {
 
-          image = "docker.io/YOUR_DOCKERHUB/demo-app:latest"
-          name  = "demo-app"
+          image = var.image
+          name  = var.app_name
 
           port {
-            container_port = 8080
+            container_port = 80
           }
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service" "app_service" {
+
+  metadata {
+    name      = "${var.app_name}-service"
+    namespace = var.namespace
+  }
+
+  spec {
+
+    selector = {
+      app = var.app_name
+    }
+
+    port {
+      port        = 80
+      target_port = 80
+    }
+
+    type = "ClusterIP"
   }
 }
