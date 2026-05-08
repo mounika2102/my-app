@@ -18,7 +18,7 @@ variable "app_name" {
   default     = "myfirstd"
 }
 
-variable "image_name" {
+variable "image" {
   description = "Docker Image"
   default     = "020217/my-app:v3"
 }
