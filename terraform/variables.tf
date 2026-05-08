@@ -1,26 +1,34 @@
-variable "namespace" {
-  description = "OpenShift namespace"
-  type        = string
-}
-
-variable "app_name" {
-  description = "Application name"
-  type        = string
-}
-
-variable "image" {
-  description = "Docker image"
-  type        = string
-  default     = "docker.io/nginx"
-}
-
-variable "openshift_server" {
-  description = "OpenShift API Server"
-  type        = string
+variable "openshift_api_url" {
+  description = "OpenShift API URL"
+  default     = "https://api.rm1.0a51.p1.openshiftapps.com:6443"
 }
 
 variable "openshift_token" {
-  description = "OpenShift Token"
-  type        = string
+  description = "OpenShift login token"
   sensitive   = true
+}
+
+variable "project_name" {
+  description = "OpenShift Namespace"
+  default     = "mounika-red-dev"
+}
+
+variable "app_name" {
+  description = "Application Name"
+  default     = "myfirstd"
+}
+
+variable "image_name" {
+  description = "Docker Image"
+  default     = "020217/my-app:v3"
+}
+
+variable "container_port" {
+  description = "Application Container Port"
+  default     = 5000
+}
+
+variable "replicas" {
+  description = "Number of replicas"
+  default     = 3
 }
