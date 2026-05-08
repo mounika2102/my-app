@@ -1,4 +1,4 @@
-variable "openshift_api_url" {
+variable "openshift_server" {
   description = "OpenShift API URL"
   default     = "https://api.rm1.0a51.p1.openshiftapps.com:6443"
 }
@@ -8,7 +8,7 @@ variable "openshift_token" {
   sensitive   = true
 }
 
-variable "project_name" {
+variable "namespace" {
   description = "OpenShift Namespace"
   default     = "mounika-red-dev"
 }
