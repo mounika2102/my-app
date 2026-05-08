@@ -1,4 +1,4 @@
-#terraform main#
+#terraform main file
 terraform {
 
   required_providers {
