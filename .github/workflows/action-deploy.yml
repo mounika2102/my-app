@@ -48,8 +48,9 @@ jobs:
 
       - name: Verify OpenShift Login
         run: |
+          SERVER=$(echo "$TF_VAR_openshift_server" | tr -d '\n')
           curl -k -H "Authorization: Bearer $TF_VAR_openshift_token" "$TF_VAR_openshift_server/version"
-          env:
+        env:
             TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
             TF_VAR_openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}  
 
@@ -59,7 +60,12 @@ jobs:
         env:
           TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
           TF_VAR_openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-
+          
+      - name: Clean Variables
+        run: |
+          echo "TF_VAR_openshift_server=$(echo "$TF_VAR_openshift_server" | tr -d '\n')" >> $GITHUB_ENV
+        env:
+          TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
