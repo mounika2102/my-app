@@ -24,6 +24,14 @@ jobs:
         run: terraform init
         working-directory: terraform
 
+      - name: Verify OpenShift Login
+        run: |
+          curl -k -H "Authorization: Bearer $TF_VAR_openshift_token" $TF_VAR_openshift_server/version
+  
+          env:
+            TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
+            TF_VAR_openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}  
+
       - name: Terraform Plan
         run: terraform plan
         working-directory: terraform
