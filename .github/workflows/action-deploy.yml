@@ -33,11 +33,22 @@ jobs:
             exit 1
           fi
         env:
-          TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}   
+          TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
+
+      - name: Debug OpenShift URL
+        run: |
+          echo "Length: ${#TF_VAR_openshift_server}"
+      
+          printf '%s\n' "$TF_VAR_openshift_server"
+      
+          echo "$TF_VAR_openshift_server" | od -c
+      
+        env:
+          TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}    
 
       - name: Verify OpenShift Login
         run: |
-          curl -k -H "Authorization: Bearer $TF_VAR_openshift_token" $TF_VAR_openshift_server/version
+          curl -k -H "Authorization: Bearer $TF_VAR_openshift_token" "$TF_VAR_openshift_server/version"
           env:
             TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
             TF_VAR_openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}  
