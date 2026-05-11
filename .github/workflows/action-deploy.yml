@@ -1,4 +1,4 @@
-name: Full DevOps Pipeline with Terraform and Ansible
+name: Full DevOps Pipeline with Terraform and Ansible firstapp
 
 on:
   push:
