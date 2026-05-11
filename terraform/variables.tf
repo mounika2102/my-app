@@ -26,5 +26,5 @@ variable "image" {
 
 variable "environment" {
 
-  default = "prod"
+  default = "dev"
 }
