@@ -76,6 +76,7 @@ resource "kubernetes_service" "app_service" {
     }
 
     port {
+      name        = "http"
       port        = 80
       target_port = 5000
     }
