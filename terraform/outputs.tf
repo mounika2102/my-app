@@ -1,11 +1,19 @@
-output "namespace" {
-  value = var.namespace
-}
-
 output "application_name" {
+
   value = var.app_name
 }
 
 output "service_name" {
-  value = kubernetes_service.app_service.metadata[0].name
+
+  value = local.service_name
+}
+
+output "route_name" {
+
+  value = local.route_name
+}
+
+output "environment" {
+
+  value = var.environment
 }
