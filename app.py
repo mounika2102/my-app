@@ -1,17 +1,18 @@
-import os
-from flask import Flask
+from prometheus_client import Counter, generate_latest
 
-app = Flask(__name__)
+REQUEST_COUNT = Counter(
+    'app_requests_total',
+    'Total App Requests'
+)
 
 @app.route("/")
 def home():
-    app_name = os.getenv("APP_NAME", "Default App")
-    return f"Hello from {app_name} 🚀"
 
-@app.route("/health")
-def health():
-    return "OK", 200
+    REQUEST_COUNT.inc()
 
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    return "Hello OpenShift"
+
+@app.route("/metrics")
+def metrics():
+
+    return generate_latest()
