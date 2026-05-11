@@ -33,7 +33,11 @@ jobs:
          
       - name: run container
         run:  |
-          docker run -d -p 9080:9080 --name liberty icr.io/appcafe/open-liberty:latest
+          docker run -d \
+          -p 9080:9080 \
+          -e keystore_password=Liberty123 \
+          --name liberty \
+          icr.io/appcafe/open-liberty:latest
           
       - name: Check running containers
         run: docker ps
