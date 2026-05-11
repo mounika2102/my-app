@@ -19,6 +19,13 @@ jobs:
 
       - name: Terraform Version
         run: terraform version
+
+      - name: Install OpenShift CLI
+        run: |
+            curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
+            tar -xvf oc.tar.gz
+            sudo mv oc /usr/local/bin/
+            oc version  
         
       - name: Terraform Init
         run: terraform init
