@@ -83,3 +83,32 @@ resource "kubernetes_service" "app_service" {
     type = "ClusterIP"
   }
 }
+resource "kubernetes_manifest" "app_route" {
+
+  manifest = {
+
+    apiVersion = "route.openshift.io/v1"
+    kind       = "Route"
+
+    metadata = {
+      name      = "${var.app_name}-route"
+      namespace = var.namespace
+    }
+
+    spec = {
+
+      to = {
+        kind = "Service"
+        name = kubernetes_service.app_service.metadata[0].name
+      }
+
+      port = {
+        targetPort = 80
+      }
+
+      tls = {
+        termination = "edge"
+      }
+    }
+  }
+}
