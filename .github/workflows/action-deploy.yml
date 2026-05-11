@@ -33,7 +33,13 @@ jobs:
          
       - name: run container
         run:  |
-          docker run -d -p 9080:9080 open-liberty
+          docker run -d -p 9080:9080 --name liberty icr.io/appcafe/open-liberty:latest
+          
+      - name: Check running containers
+        run: docker ps
+
+      - name: Check logs
+        run: docker logs $(docker ps -q)    
          
   terraform:
     needs: Docker
