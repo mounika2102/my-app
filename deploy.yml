@@ -14,10 +14,28 @@
       shell: |
         oc project mounika-red-dev
 
-    - name: Deploy application
+    - name: Verify deployment
       shell: |
-        oc apply -f deployment.yaml -n mounika-red-dev
+        oc get deployment myfirstd -n mounika-red-dev
 
     - name: Verify pods
       shell: |
         oc get pods -n mounika-red-dev
+
+    - name: Verify service
+      shell: |
+        oc get svc -n mounika-red-dev
+
+    - name: Verify route
+      shell: |
+        oc get route -n mounika-red-dev
+
+    - name: Check rollout status
+      shell: |
+        oc rollout status deployment/myfirstd -n mounika-red-dev
+
+    - name: Get application URL
+      shell: |
+        oc get route myfirstd-route \
+        -n mounika-red-dev \
+        --template='{{ .spec.host }}'
