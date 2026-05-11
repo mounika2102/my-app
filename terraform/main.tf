@@ -184,30 +184,3 @@ EOF
 EOT
   }
 }
-resource "kubernetes_manifest" "servicemonitor" {
-  manifest = {
-    apiVersion = "monitoring.coreos.com/v1"
-    kind       = "ServiceMonitor"
-
-    metadata = {
-      name      = "myfirstd-monitor"
-      namespace = "dev"
-    }
-
-    spec = {
-      selector = {
-        matchLabels = {
-          app = "myfirstd"
-        }
-      }
-
-      endpoints = [
-        {
-          port     = "http"
-          path     = "/metrics"
-          interval = "30s"
-        }
-      ]
-    }
-  }
-}
