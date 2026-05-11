@@ -88,6 +88,9 @@ resource "null_resource" "route" {
   provisioner "local-exec" {
 
     command = <<EOT
+oc login ${var.openshift_server} \
+--token=${var.openshift_token} \
+--insecure-skip-tls-verify
 
 cat <<EOF | oc apply -f -
 apiVersion: route.openshift.io/v1
