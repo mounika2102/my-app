@@ -46,7 +46,7 @@ locals {
 
   deployed_time = timestamp()
 
-  replicas = var.environment == "prod" ? 3 : 1
+  replicas = var.environment == "prod" ? 2 : 1
 }
 
 #################################################
