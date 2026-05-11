@@ -16,7 +16,7 @@ variable "namespace" {
 
 variable "app_name" {
 
-  default = "mysecond"
+  default = "funcapp"
 }
 
 variable "image" {
