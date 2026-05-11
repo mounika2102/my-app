@@ -39,7 +39,16 @@ jobs:
         run: docker ps
 
       - name: Check logs
-        run: docker logs $(docker ps -q)    
+        run: docker logs $(docker ps -q)
+      
+      - name: Wait for startup
+        run: sleep 40
+
+      - name: Check logs
+        run: docker logs liberty
+
+      - name: Test application
+        run: curl -I http://localhost:9080
          
   terraform:
     needs: Docker
