@@ -7,6 +7,26 @@ on:
 
 jobs:
 
+  Dcoker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+      - name: Docker Login
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} \
+          -p ${{ secrets.DOCKER_PASSWORD }}  
+          
+      - name: Build Docker Image
+        run: |
+          docker build -t 020217/my-app:${{ github.run_number }} .
+
+      - name: Push Docker Image
+        run: |
+          docker push 020217/my-app:${{ github.run_number }}
+
   terraform:
 
     runs-on: ubuntu-latest
@@ -16,6 +36,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+          
 
       - name: Terraform Version
         run: terraform version
@@ -78,6 +99,7 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: terraform
         env:
+          TF_VAR_image: 020217/my-app:${{ github.run_number }}
           TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
           TF_VAR_openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
 
