@@ -49,8 +49,7 @@ variable "app_name" {
 }
 
 variable "image" {
-
-  default = "020217/my-app:v3"
+  description = "Docker image"
 }
 
 variable "environment" {
