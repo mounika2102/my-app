@@ -54,7 +54,7 @@ resource "kubernetes_deployment" "app" {
           name  = var.app_name
 
           port {
-            container_port = 80
+            container_port = 5000
           }
         }
       }
