@@ -83,32 +83,28 @@ resource "kubernetes_service" "app_service" {
     type = "ClusterIP"
   }
 }
-resource "kubernetes_manifest" "app_route" {
+resource "null_resource" "route" {
 
-  manifest = {
+  provisioner "local-exec" {
 
-    apiVersion = "route.openshift.io/v1"
-    kind       = "Route"
+    command = <<EOT
 
-    metadata = {
-      name      = "${var.app_name}-route"
-      namespace = var.namespace
-    }
+cat <<EOF | oc apply -f -
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ${var.app_name}-route
+  namespace: ${var.namespace}
+spec:
+  to:
+    kind: Service
+    name: ${var.app_name}-service
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
+EOF
 
-    spec = {
-
-      to = {
-        kind = "Service"
-        name = kubernetes_service.app_service.metadata[0].name
-      }
-
-      port = {
-        targetPort = 80
-      }
-
-      tls = {
-        termination = "edge"
-      }
-    }
+EOT
   }
 }
