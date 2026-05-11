@@ -16,7 +16,7 @@ variable "namespace" {
 
 variable "app_name" {
 
-  default = "myfirstd"
+  default = "mysecond"
 }
 
 variable "image" {
@@ -26,5 +26,5 @@ variable "image" {
 
 variable "environment" {
 
-  default = "dev"
+  default = "prod"
 }
