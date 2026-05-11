@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  Dcoker:
+  Docker:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
           docker push 020217/my-app:${{ github.run_number }}
 
   terraform:
-
+    needs: Docker
     runs-on: ubuntu-latest
 
     steps:
