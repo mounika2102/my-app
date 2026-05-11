@@ -27,7 +27,8 @@ variable "image" {
 variable "environment" {
 
   default = "dev"
-}variable "openshift_server" {
+}
+variable "openshift_server" {
 
   description = "OpenShift API URL"
 }
