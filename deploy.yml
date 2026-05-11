@@ -38,4 +38,4 @@
       shell: |
         oc get route myfirstd-route \
         -n mounika-red-dev \
-        --template='{{ .spec.host }}'
+        --template='{{"{{"}} .spec.host {{"}}"}}'
