@@ -77,7 +77,7 @@ resource "kubernetes_service" "app_service" {
 
     port {
       port        = 80
-      target_port = 80
+      target_port = 5000
     }
 
     type = "ClusterIP"
@@ -103,7 +103,7 @@ spec:
     kind: Service
     name: ${var.app_name}-service
   port:
-    targetPort: 80
+    targetPort: http
   tls:
     termination: edge
 EOF
