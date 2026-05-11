@@ -27,13 +27,13 @@ jobs:
         run: |
           docker push 020217/my-app:${{ github.run_number }}
           
-      -name: Pull WAS Image
-       run:  |
-         docker pull icr.io/appcafe/open-liberty:latest
+      - name: Pull WAS Image
+        run:  |
+          docker pull icr.io/appcafe/open-liberty:latest
          
-      -name: run container
-       run:  |
-         docker run -d -p 9080:9080 open-liberty
+      - name: run container
+        run:  |
+          docker run -d -p 9080:9080 open-liberty
          
   terraform:
     needs: Docker
