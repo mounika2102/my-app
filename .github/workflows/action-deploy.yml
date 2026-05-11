@@ -86,6 +86,7 @@ jobs:
         run: terraform plan
         working-directory: terraform
         env:
+          TF_VAR_image: 020217/my-app:${{ github.run_number }}
           TF_VAR_openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
           TF_VAR_openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           
