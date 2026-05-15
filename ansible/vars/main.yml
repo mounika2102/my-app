@@ -1,0 +1,7 @@
+namespace: demo-project
+
+app_name: flask-app
+
+image: image-registry.openshift-image-registry.svc:5000/demo-project/flask-app:latest
+
+route_host: flask-app-demo.apps.cluster.com

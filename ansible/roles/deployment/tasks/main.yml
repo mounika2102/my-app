@@ -1,0 +1,5 @@
+- name: Deploy application
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ namespace }}"
+    template: deployment.yaml.j2

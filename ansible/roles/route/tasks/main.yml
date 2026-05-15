@@ -1,0 +1,5 @@
+- name: Create route
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ namespace }}"
+    template: route.yaml.j2

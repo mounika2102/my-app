@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+
+metadata:
+  name: {{ app_name }}
+
+spec:
+  host: {{ route_host }}
+
+  to:
+    kind: Service
+    name: {{ app_name }}

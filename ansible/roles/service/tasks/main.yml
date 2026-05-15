@@ -1,0 +1,6 @@
+- name: Create service
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ namespace }}"
+    template: service.yaml.j2
+    

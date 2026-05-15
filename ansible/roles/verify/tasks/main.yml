@@ -1,0 +1,13 @@
+- name: Wait for pod
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: "{{ namespace }}"
+  register: pod_info
+  until: pod_info.resources | length > 0
+  retries: 10
+  delay: 15
+
+- name: Verify application route
+  uri:
+    url: "http://{{ route_host }}/health"
+    status_code: 200

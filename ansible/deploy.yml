@@ -1,0 +1,14 @@
+- hosts: localhost
+  connection: local
+
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - namespace
+    - configmap
+    - secret
+    - deployment
+    - service
+    - route
+    - verify
