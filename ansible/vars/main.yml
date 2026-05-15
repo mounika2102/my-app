@@ -1,7 +1,7 @@
-namespace: demo-project
+namespace: mounika-red-dev
 
-app_name: flask-app
+app_name: my-app
 
-image: image-registry.openshift-image-registry.svc:5000/demo-project/flask-app:latest
+image: image-registry.openshift-image-registry.svc:5000/:latest
 
-route_host: flask-app-demo.apps.cluster.com
+route_host: my-app-mounika-red-dev.apps.cluster.com
