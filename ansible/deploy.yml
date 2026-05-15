@@ -6,8 +6,6 @@
 
   roles:
     - namespace
-    - configmap
-    - secret
     - deployment
     - service
     - route
