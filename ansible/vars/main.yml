@@ -3,3 +3,4 @@ namespace: mounika-red-dev
 app_name: my-app
 
 image: mounika2102/my-app:{{ lookup('env','IMAGE_TAG') }}
+route_host: my-app-mounika-red-dev.apps.rm1.0a51.p1.openshiftapps.com
